@@ -14,10 +14,13 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:8080', // Troque pelo seu domínio front-end
+    credentials: true
+}));
 app.use(express.json());
 app.use(session({
-    secret: 'seu_segredo', // Troque por uma string secreta mais forte em produção
+    secret: process.env.SESSION_SECRET || 'seu_segredo', // Use uma variável de ambiente
     resave: false,
     saveUninitialized: true
 }));
@@ -53,6 +56,7 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log('Usuário desconectado');
+        // Remover o usuário de salas, se necessário
     });
 });
 
@@ -72,6 +76,12 @@ app.get('/auth/google/callback',
 // Rota básica (opcional, para teste)
 app.get('/', (req, res) => {
     res.send('Hello World!');
+});
+
+// Middleware de tratamento de erros
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
 });
 
 // Iniciar o servidor
