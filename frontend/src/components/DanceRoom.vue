@@ -137,7 +137,7 @@ export default {
   },
   methods: {
     async searchYouTube() {
-      const apiKey = 'AIzaSyCmAhVibHjcdcarHQtkkpwfFhCTGsBjtWI'; // Adicione sua chave de API do YouTube aqui
+      const apiKey = 'SUA CHAVE API AQUI PRA FUNCIONAR O SEARCH, API DO YOUTUBE É PUBLICA'; // Adicione sua chave de API do YouTube aqui
       if (!apiKey) {
         alert("Please enter your YouTube API key!");
         return;
